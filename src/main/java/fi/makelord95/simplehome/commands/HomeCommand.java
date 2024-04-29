@@ -1,5 +1,7 @@
-package fi.makelord95.simplehome;
+package fi.makelord95.simplehome.commands;
 
+import fi.makelord95.simplehome.database.DatabaseManager;
+import fi.makelord95.simplehome.models.Home;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,10 +18,20 @@ public class HomeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        Player player = (Player) commandSender;
+        if (!(commandSender instanceof Player player)) {
+            commandSender.sendMessage("Only players can use this command.");
+            return true;
+        }
+
+        if (strings.length != 1) {
+            commandSender.sendMessage("Usage: /home <home name>");
+            return true;
+        }
+
+        String homeName = strings[0];
 
         try {
-            Home home = databaseManager.getHome(player.getUniqueId().toString());
+            Home home = databaseManager.getHome(player.getUniqueId().toString(), homeName);
 
             if (home == null) {
                 commandSender.sendMessage("You don't have a home set.");

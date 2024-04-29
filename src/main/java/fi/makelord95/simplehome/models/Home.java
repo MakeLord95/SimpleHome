@@ -1,4 +1,4 @@
-package fi.makelord95.simplehome;
+package fi.makelord95.simplehome.models;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,7 +12,7 @@ public class Home {
     private final float rot_x;
     private final float rot_y;
 
-    public Home(String world, double x, double y, double z, float rotX, float rotY) {
+    public Home(String name, String world, double x, double y, double z, float rotX, float rotY) {
         this.world = world;
         this.x = x;
         this.y = y;

@@ -1,5 +1,7 @@
 package fi.makelord95.simplehome;
 
+import fi.makelord95.simplehome.commands.*;
+import fi.makelord95.simplehome.database.DatabaseManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -15,6 +17,7 @@ public class SimpleHome extends JavaPlugin {
         getLogger().info("Beep boop. SimpleHome has now been enabled.");
 
         File pluginFolder = getDataFolder();
+        this.saveDefaultConfig();
 
         if (!pluginFolder.exists()) {
             if (!pluginFolder.mkdir()) {
@@ -23,6 +26,7 @@ public class SimpleHome extends JavaPlugin {
             }
         }
 
+
         try {
             databaseManager = new DatabaseManager(getDataFolder() + "/homes.db");
         } catch (SQLException e) {
@@ -30,7 +34,14 @@ public class SimpleHome extends JavaPlugin {
         }
 
         Objects.requireNonNull(getCommand("home")).setExecutor(new HomeCommand(databaseManager));
-        Objects.requireNonNull(getCommand("sethome")).setExecutor(new SetHomeCommand(databaseManager));
+        Objects.requireNonNull(getCommand("sethome")).setExecutor(new SetHomeCommand(databaseManager, this));
+        Objects.requireNonNull(getCommand("homes")).setExecutor(new HomesCommand(databaseManager));
+        Objects.requireNonNull(getCommand("delhome")).setExecutor(new DelHomeCommand(databaseManager));
+
+        Objects.requireNonNull(getCommand("home")).setTabCompleter(new TabCompleter(databaseManager));
+        Objects.requireNonNull(getCommand("sethome")).setTabCompleter(new TabCompleter(databaseManager));
+        Objects.requireNonNull(getCommand("homes")).setTabCompleter(new TabCompleter(databaseManager));
+        Objects.requireNonNull(getCommand("delhome")).setTabCompleter(new TabCompleter(databaseManager));
     }
 
     @Override

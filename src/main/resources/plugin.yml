@@ -14,14 +14,32 @@ permissions:
     description: Set your home
     default: true
 
+  simplehome.homes:
+    description: List all homes
+    default: true
+
+  simplehome.delhome:
+    description: Delete your home
+    default: true
+
 
 commands:
   home:
     description: Teleport to your home
-    usage: /home
+    usage: /home <home>
     permission: simplehome.home
 
   sethome:
     description: Set your home
-    usage: /sethome
+    usage: /sethome <home>
     permission: simplehome.sethome
+
+  homes:
+    description: List all homes
+    usage: /homes
+    permission: simplehome.homes
+
+  delhome:
+    description: Delete your home
+    usage: /delhome <home>
+    permission: simplehome.delhome
